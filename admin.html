@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PureNest · Admin Dashboard</title>
+    <link rel="icon" href="assets/fav.png" type="image/jpeg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['class', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'var(--color-background)',
+                        'primary-text': 'var(--color-primary-text)',
+                        'secondary-text': 'var(--color-secondary-text)',
+                        accent: 'var(--color-accent)',
+                        primary: 'var(--color-primary)',
+                        secondary: 'var(--color-secondary)',
+                        border: 'var(--color-border)',
+                        hover: 'var(--color-hover)',
+                        'footer-bg': 'var(--color-footer-bg)',
+                        'footer-text': 'var(--color-footer-text)',
+                        'card-bg': 'var(--color-card-bg)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* =========================
+           THEME VARIABLES – CLEANING SERVICE
+        ========================= */
+        :root, html[data-theme='light'] {
+            --color-background: #F0FDFA;
+            --color-primary-text: #115E59;
+            --color-secondary-text: #334155;
+            --color-accent: #06B6D4;
+            --color-primary: #0D9488;
+            --color-secondary: #2DD4BF;
+            --color-border: #CCFBF1;
+            --color-hover: #E0F2FE;
+            --color-footer-bg: #115E59;
+            --color-footer-text: #F8FAFC;
+            --color-card-bg: #FFFFFF;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-sidebar-bg: #FFFFFF;
+        }
+        html[data-theme='dark'] {
+            --color-background: #042F2E;
+            --color-primary-text: #F0FDFA;
+            --color-secondary-text: #94A3B8;
+            --color-accent: #22D3EE;
+            --color-primary: #14B8A6;
+            --color-secondary: #5EEAD4;
+            --color-border: #134E4A;
+            --color-hover: #115E59;
+            --color-footer-bg: #022C22;
+            --color-footer-text: #F8FAFC;
+            --color-card-bg: #134E4A;
+            --color-success: #34d399;
+            --color-warning: #fbbf24;
+            --color-danger: #f87171;
+            --color-sidebar-bg: #0F3D3A;
+        }
+
+        body {
+            background: var(--color-background);
+            color: var(--color-primary-text);
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .text-primary-text { color: var(--color-primary-text); }
+        .text-secondary-text { color: var(--color-secondary-text); }
+        .text-accent { color: var(--color-accent); }
+        .text-primary { color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .bg-background { background-color: var(--color-background); }
+        .bg-hover { background-color: var(--color-hover); }
+        .bg-card-bg { background-color: var(--color-card-bg); }
+        .bg-sidebar { background-color: var(--color-sidebar-bg); }
+        .border-border { border-color: var(--color-border); }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding-bottom: 0.1em;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            color: var(--color-secondary-text);
+            transition: all 0.18s ease;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background: linear-gradient(145deg, var(--color-primary), var(--color-accent));
+            color: white;
+            box-shadow: 0 6px 16px -6px rgba(13, 148, 136, 0.4);
+        }
+        .sidebar-link:hover i, .sidebar-link.active i { color: white; }
+        .sidebar-link.logout:hover { background: var(--color-danger); }
+
+        /* =========================
+           CARDS & UI
+        ========================= */
+        .dashboard-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .dashboard-card:hover { border-color: var(--color-primary); box-shadow: 0 12px 28px -12px rgba(13,148,136,0.12); }
+
+        .stat-card {
+            background: var(--color-card-bg);
+            border-radius: 1.25rem;
+            border: 1px solid var(--color-border);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px -10px rgba(13,148,136,0.2);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: 9999px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 12px 0 rgba(13, 148, 136, 0.3);
+        }
+        .btn-primary:hover { background-color: var(--color-accent); transform: translateY(-1px); }
+        .btn-accent {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: 9999px;
+            transition: all 0.25s;
+        }
+        .btn-accent:hover { background-color: var(--color-primary); color: white; }
+
+        .data-table th {
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-secondary-text);
+            text-align: left;
+            padding: 0.75rem 0.5rem;
+        }
+        .data-table td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.875rem;
+        }
+
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background-color: var(--color-success);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16,185,129,0.5);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 70% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } }
+
+        /* Mobile sidebar behaviour */
+        #mobile-overlay {
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 55;
+        }
+        #mobile-overlay.active { opacity: 1; pointer-events: auto; }
+        @media (max-width: 1023px) {
+            #sidebar-container { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            #sidebar-container.open-sidebar-mobile { transform: translateX(0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Consistent typography */
+        h1,h2,h3,h4,h5,h6 { font-weight: 600 !important; }
+        p:not(.font-medium), div.text-secondary-text { font-weight: 400 !important; }
+
+        /* Chart bar */
+        .chart-bar { display: flex; align-items: flex-end; gap: 6px; height: 130px; }
+        .chart-bar > div {
+            flex: 1;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+            min-height: 8px;
+            transition: height 0.4s;
+        }
+
+        /* Progress */
+        .progress-bar { height: 6px; border-radius: 99px; background: var(--color-border); overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); }
+
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 99px; }
+
+        /* Cleaner avatar */
+        .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-border);
+        }
+
+        /* Floating call */
+        .float-call { box-shadow: 0 4px 14px rgba(13, 148, 136, 0.5); }
+    
+        /* NEW NAV ACTIVE BG STYLE */
+        .nav-link::after { display: none !important; }
+        .nav-link {
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        .nav-link:hover {
+            background-color: var(--color-hover);
+            color: var(--color-primary);
+        }
+        .nav-link.active, .nav-link.active:hover {
+            background-color: var(--color-primary) !important;
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+        .dropdown-menu a.active {
+            background-color: var(--color-primary) !important;
+            color: #ffffff !important;
+            padding-inline-start: 1.25rem;
+        }
+        .dropdown-menu a.active i {
+            color: #ffffff !important;
+        }
+            /* Mobile Nav Active */
+        #drawer-content a.active {
+            color: var(--color-accent) !important;
+            font-weight: 800 !important;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen w-full">
+
+    <!-- ==========================================================
+         TOP BAR
+    ========================================================== -->
+    <header class="border-b border-border bg-card-bg sticky top-0 z-50 w-full">
+        <div class="max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-2">
+
+            <!-- Left: hamburger + logo -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="mobile-menu-toggle" class="lg:hidden p-1.5 -ml-1 rounded-xl hover:bg-hover transition text-primary">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white shadow-md transform group-hover:scale-105 transition duration-300">
+                        <i class="fa-solid fa-pump-soap text-sm sm:text-base"></i>
+                    </div>
+                    <span class="text-lg sm:text-2xl font-sans font-black tracking-tight text-primary whitespace-nowrap">
+                        Pure<span class="text-accent">Nest</span>
+                    </span>
+                    <span class="text-[10px] sm:text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full ml-1 shrink-0">Admin</span>
+                </a>
+            </div>
+
+            <!-- Right: actions -->
+            <div class="flex items-center gap-1 sm:gap-3">
+                <!-- Theme toggle -->
+                <button id="theme-toggle" class="p-1.5 rounded-full hover:bg-hover transition text-primary">
+                    <svg class="w-5 h-5 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg class="w-5 h-5 dark-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <!-- RTL toggle -->
+                <button id="lang-toggle" class="p-1.5 rounded-full hover:bg-hover transition text-primary">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                    </svg>
+                </button>
+                <!-- Notifications bell -->
+                <button class="p-1.5 rounded-full hover:bg-hover transition text-primary relative">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
+                </button>
+                <!-- User avatar -->
+                <div class="flex items-center gap-2 pl-2 sm:pl-3 border-l border-border">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary/15 flex items-center justify-center text-primary font-semibold text-xs sm:text-sm">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="hidden sm:block text-sm leading-tight">
+                        <p class="font-semibold">Admin</p>
+                        <p class="text-xs text-secondary-text">Clinic Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay for mobile sidebar -->
+    <div id="mobile-overlay" class="fixed inset-0 z-[55] lg:hidden"></div>
+
+    <!-- ==========================================================
+         MAIN LAYOUT
+    ========================================================== -->
+    <main class="max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 flex-grow w-full">
+        <div class="flex flex-col lg:flex-row gap-5 xl:gap-8">
+
+            <!-- ===================== SIDEBAR ===================== -->
+            <aside id="sidebar-container"
+                   class="fixed lg:static top-0 left-0 h-full lg:h-auto w-72 sm:w-80 z-[60] lg:z-10 transform lg:translate-x-0 transition-transform duration-300 lg:flex-shrink-0">
+                <div class="dashboard-card p-5 lg:sticky lg:top-24 bg-card-bg h-full lg:h-auto border-r lg:border border-border lg:rounded-2xl rounded-none overflow-y-auto">
+
+                    <!-- Mobile close -->
+                    <div class="flex lg:hidden justify-between items-center mb-6 px-1">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                                <i class="fas fa-user-shield text-white text-xs"></i>
+                            </div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-primary">Admin Menu</span>
+                        </div>
+                        <button id="close-sidebar" class="p-2 hover:bg-hover rounded-lg text-secondary-text">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Admin profile card -->
+                    <div class="flex items-center gap-3 pb-5 mb-4 border-b border-border">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-lg shrink-0 shadow-md">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-primary-text truncate">Admin</p>
+                            <p class="text-[11px] text-secondary-text flex items-center gap-1">
+                                <span class="pulse-dot inline-block"></span> Super Admin
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <nav class="flex flex-col gap-1">
+                        <p class="text-[10px] uppercase tracking-widest text-secondary-text font-bold mt-2 mb-2 px-3">Main</p>
+                        <a href="#" data-section="overview" class="sidebar-link active">
+                            <i class="fas fa-tachometer-alt w-5"></i><span>Overview</span>
+                        </a>
+                        <a href="#" data-section="bookings" class="sidebar-link">
+                            <i class="fas fa-calendar-check"></i><span>Bookings</span>
+                        </a>
+                        <a href="#" data-section="customers" class="sidebar-link">
+                            <i class="fas fa-users"></i><span>Customers</span>
+                        </a>
+                        <a href="#" data-section="cleaners" class="sidebar-link">
+                            <i class="fas fa-user-tie"></i><span>Cleaners</span>
+                        </a>
+                        <a href="#" data-section="services" class="sidebar-link">
+                            <i class="fas fa-broom"></i><span>Services</span>
+                        </a>
+                        <a href="#" data-section="payments" class="sidebar-link">
+                            <i class="fas fa-credit-card"></i><span>Payments</span>
+                        </a>
+                        <p class="text-[10px] uppercase tracking-widest text-secondary-text font-bold mt-4 mb-2 px-3">System</p>
+                        <a href="#" data-section="reports" class="sidebar-link">
+                            <i class="fas fa-chart-bar"></i><span>Reports</span>
+                        </a>
+                        <a href="#" data-section="settings" class="sidebar-link">
+                            <i class="fas fa-cog"></i><span>Settings</span>
+                        </a>
+                        <a href="#" data-section="logout" class="sidebar-link logout mt-4 text-red-500">
+                            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+                        </a>
+                    </nav>
+
+                    <!-- System status -->
+                    <div class="mt-6 pt-4 border-t border-border">
+                        <div class="bg-hover rounded-xl p-4">
+                            <p class="text-[10px] uppercase tracking-wider text-secondary-text font-bold mb-2">System Status</p>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                <span class="text-xs font-semibold">All systems operational</span>
+                            </div>
+                            <p class="text-[11px] text-secondary-text mt-2">Last check: just now</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ===================== RIGHT CONTENT ===================== -->
+            <div class="flex-1 min-w-0">
+
+                <!-- ========== OVERVIEW ========== -->
+                <div id="overview" class="admin-section">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Welcome, <span class="gradient-text">Admin</span> 🧼</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Here's how PureNest is performing today.</p>
+                    </div>
+
+                    <!-- Stat cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 reveal active">
+                        <div class="stat-card p-5">
+                            <div class="flex justify-between items-start">
+                                <div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-xl">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-bold uppercase tracking-wide">Today</span>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">18</p>
+                            <p class="text-sm font-semibold text-primary-text">Bookings Today</p>
+                            <p class="text-xs text-secondary-text mt-0.5">4 pending assignment</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-xl">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">2,548</p>
+                            <p class="text-sm font-semibold text-primary-text">Total Customers</p>
+                            <p class="text-xs text-secondary-text mt-0.5">+68 this month</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-xl">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">42</p>
+                            <p class="text-sm font-semibold text-primary-text">Active Cleaners</p>
+                            <p class="text-xs text-secondary-text mt-0.5">38 on duty today</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-xl">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">$42.8k</p>
+                            <p class="text-sm font-semibold text-primary-text">Revenue (MTD)</p>
+                            <p class="text-xs text-secondary-text mt-0.5">+22% vs last month</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-6 reveal">
+                        <!-- Weekly bookings chart -->
+                        <div class="dashboard-card p-5 sm:p-6 lg:col-span-2">
+                            <div class="flex justify-between items-center mb-5">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-primary"></i> Bookings this week
+                                </h3>
+                                <span class="text-xs text-secondary-text">Last 7 days</span>
+                            </div>
+                            <div class="chart-bar">
+                                <div style="height: 55%;"></div>
+                                <div style="height: 72%;"></div>
+                                <div style="height: 60%;"></div>
+                                <div style="height: 92%;"></div>
+                                <div style="height: 78%;"></div>
+                                <div style="height: 48%;"></div>
+                                <div style="height: 30%;"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px] text-secondary-text mt-2 px-1">
+                                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                            </div>
+                            <div class="flex flex-wrap gap-4 mt-4 pt-4 border-t border-border">
+                                <div><p class="text-xs text-secondary-text">Total this week</p><p class="text-lg font-bold text-primary">124</p></div>
+                                <div><p class="text-xs text-secondary-text">Avg. per day</p><p class="text-lg font-bold text-primary">17.7</p></div>
+                                <div><p class="text-xs text-secondary-text">Peak day</p><p class="text-lg font-bold text-primary">Thursday</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Service mix -->
+                        <div class="dashboard-card p-5 sm:p-6">
+                            <h3 class="font-semibold text-lg flex items-center gap-2 mb-5">
+                                <i class="fas fa-chart-pie text-primary"></i> Service Mix
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1.5">
+                                        <span class="font-medium">Regular Cleaning</span>
+                                        <span class="font-bold text-primary">52%</span>
+                                    </div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:52%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1.5">
+                                        <span class="font-medium">Deep Sanitization</span>
+                                        <span class="font-bold text-primary">31%</span>
+                                    </div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:31%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1.5">
+                                        <span class="font-medium">Move-In / Out</span>
+                                        <span class="font-bold text-primary">12%</span>
+                                    </div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:12%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1.5">
+                                        <span class="font-medium">Other</span>
+                                        <span class="font-bold text-primary">5%</span>
+                                    </div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:5%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent activity + Top cleaners -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6 reveal">
+                        <!-- Recent activity -->
+                        <div class="dashboard-card p-5 sm:p-6">
+                            <h3 class="font-semibold text-lg flex items-center gap-2 mb-4">
+                                <i class="fas fa-clock text-primary"></i> Recent Activity
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3 pb-3 border-b border-border">
+                                    <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs shrink-0">
+                                        <i class="fas fa-calendar-plus"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold">New booking</p>
+                                        <p class="text-xs text-secondary-text">Sarah Mitchell · Deep Clean · May 10</p>
+                                    </div>
+                                    <span class="text-[10px] text-secondary-text whitespace-nowrap">2 min ago</span>
+                                </div>
+                                <div class="flex items-start gap-3 pb-3 border-b border-border">
+                                    <div class="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center text-accent text-xs shrink-0">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold">New cleaner onboarded</p>
+                                        <p class="text-xs text-secondary-text">James Wilson · Austin region</p>
+                                    </div>
+                                    <span class="text-[10px] text-secondary-text whitespace-nowrap">18 min ago</span>
+                                </div>
+                                <div class="flex items-start gap-3 pb-3 border-b border-border">
+                                    <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs shrink-0">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold">Payment received</p>
+                                        <p class="text-xs text-secondary-text">$89.00 · Sarah Mitchell</p>
+                                    </div>
+                                    <span class="text-[10px] text-secondary-text whitespace-nowrap">1 hr ago</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center text-accent text-xs shrink-0">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold">5-star review received</p>
+                                        <p class="text-xs text-secondary-text">"Excellent service!" — David L.</p>
+                                    </div>
+                                    <span class="text-[10px] text-secondary-text whitespace-nowrap">2 hr ago</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top cleaners -->
+                        <div class="dashboard-card p-5 sm:p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <i class="fas fa-award text-primary"></i> Top Cleaners
+                                </h3>
+                                <button onclick="activateSection('cleaners')" class="text-primary text-xs font-bold hover:text-accent transition">View all</button>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-hover transition">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S." class="avatar">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-sm">Maria Santos</p>
+                                        <p class="text-xs text-secondary-text">32 cleans · 5.0 ★</p>
+                                    </div>
+                                    <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-bold uppercase">Top</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-hover transition">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anna K." class="avatar">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-sm">Anna Kim</p>
+                                        <p class="text-xs text-secondary-text">28 cleans · 4.9 ★</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-hover transition">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James W." class="avatar">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-sm">James Wilson</p>
+                                        <p class="text-xs text-secondary-text">25 cleans · 4.8 ★</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-hover transition">
+                                    <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Emily T." class="avatar">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-sm">Emily Torres</p>
+                                        <p class="text-xs text-secondary-text">22 cleans · 4.9 ★</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== BOOKINGS ========== -->
+                <div id="bookings" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Manage <span class="gradient-text">Bookings</span> 📅</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">View, assign, and track all cleaning appointments.</p>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 reveal active">
+                        <div class="flex flex-col sm:flex-row flex-wrap justify-between items-start sm:items-center gap-3 mb-5">
+                            <div class="flex flex-wrap gap-2">
+                                <button class="btn-primary px-4 py-2 text-xs font-bold">All</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">Today</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">Pending</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">Unassigned</button>
+                            </div>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <input type="text" placeholder="Search bookings..." class="form-input py-2 text-sm flex-1 sm:w-56">
+                                <button class="btn-primary px-4 py-2 text-xs font-bold whitespace-nowrap"><i class="fas fa-plus mr-1"></i> New</button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full data-table min-w-[880px]">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Service</th>
+                                        <th>Date & Time</th>
+                                        <th>Cleaner</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3021</td>
+                                        <td>Sarah Mitchell</td>
+                                        <td>Deep Sanitization</td>
+                                        <td>May 10 · 9:00 AM</td>
+                                        <td>Maria Santos</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Confirmed</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3022</td>
+                                        <td>David Lawson</td>
+                                        <td>Regular Cleaning</td>
+                                        <td>May 10 · 11:00 AM</td>
+                                        <td>Anna Kim</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Confirmed</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3023</td>
+                                        <td>Priya Kapoor</td>
+                                        <td>Move-Out Cleaning</td>
+                                        <td>May 10 · 1:00 PM</td>
+                                        <td class="text-secondary-text italic">Unassigned</td>
+                                        <td><span class="status-badge bg-yellow-100 text-yellow-700">Pending</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-user-plus"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3024</td>
+                                        <td>James Rodriguez</td>
+                                        <td>Deep Sanitization</td>
+                                        <td>May 11 · 9:00 AM</td>
+                                        <td>James Wilson</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Confirmed</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3025</td>
+                                        <td>Emily Torres</td>
+                                        <td>Regular Cleaning</td>
+                                        <td>May 11 · 2:00 PM</td>
+                                        <td>Emily Torres</td>
+                                        <td><span class="status-badge bg-blue-100 text-blue-700">Scheduled</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#BK-3026</td>
+                                        <td>Rachel Bennett</td>
+                                        <td>Deep Sanitization</td>
+                                        <td>May 12 · 9:00 AM</td>
+                                        <td class="text-secondary-text italic">Unassigned</td>
+                                        <td><span class="status-badge bg-red-100 text-red-700">Urgent</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-user-plus"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="flex flex-wrap justify-between items-center gap-3 mt-5 pt-4 border-t border-border">
+                            <p class="text-xs text-secondary-text">Showing 6 of 248 bookings</p>
+                            <div class="flex gap-1">
+                                <button class="w-8 h-8 rounded-lg border border-border hover:border-primary text-xs font-bold"><i class="fas fa-chevron-left"></i></button>
+                                <button class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold">1</button>
+                                <button class="w-8 h-8 rounded-lg border border-border hover:border-primary text-xs font-bold">2</button>
+                                <button class="w-8 h-8 rounded-lg border border-border hover:border-primary text-xs font-bold">3</button>
+                                <button class="w-8 h-8 rounded-lg border border-border hover:border-primary text-xs font-bold"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== CUSTOMERS ========== -->
+                <div id="customers" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Manage <span class="gradient-text">Customers</span> 👥</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">View customer profiles, plans, and history.</p>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 reveal active">
+                        <div class="flex flex-col sm:flex-row flex-wrap justify-between items-start sm:items-center gap-3 mb-5">
+                            <div class="flex flex-wrap gap-2">
+                                <button class="btn-primary px-4 py-2 text-xs font-bold">All Customers</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">Active Plans</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">Inactive</button>
+                            </div>
+                            <input type="text" placeholder="Search customers..." class="form-input py-2 text-sm w-full sm:w-56">
+                        </div>
+
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full data-table min-w-[820px]">
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Contact</th>
+                                        <th>Plan</th>
+                                        <th>Total Cleans</th>
+                                        <th>Lifetime Value</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar" alt="Sarah">
+                                                <div><p class="font-semibold">Sarah Mitchell</p><p class="text-xs text-secondary-text">#PN-2043</p></div>
+                                            </div>
+                                        </td>
+                                        <td>sarah.m@email.com</td>
+                                        <td><span class="text-xs font-semibold">Bi-Weekly Deep</span></td>
+                                        <td class="font-semibold">28</td>
+                                        <td class="font-semibold text-primary">$2,492</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/men/75.jpg" class="avatar" alt="David">
+                                                <div><p class="font-semibold">David Lawson</p><p class="text-xs text-secondary-text">#PN-1982</p></div>
+                                            </div>
+                                        </td>
+                                        <td>d.lawson@email.com</td>
+                                        <td><span class="text-xs font-semibold">Weekly Regular</span></td>
+                                        <td class="font-semibold">46</td>
+                                        <td class="font-semibold text-primary">$2,254</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="avatar" alt="Priya">
+                                                <div><p class="font-semibold">Priya Kapoor</p><p class="text-xs text-secondary-text">#PN-2104</p></div>
+                                            </div>
+                                        </td>
+                                        <td>priya.k@email.com</td>
+                                        <td><span class="text-xs font-semibold text-secondary-text">One-time</span></td>
+                                        <td class="font-semibold">3</td>
+                                        <td class="font-semibold text-primary">$447</td>
+                                        <td><span class="status-badge bg-blue-100 text-blue-700">New</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar" alt="James">
+                                                <div><p class="font-semibold">James Rodriguez</p><p class="text-xs text-secondary-text">#PN-1876</p></div>
+                                            </div>
+                                        </td>
+                                        <td>j.rodriguez@email.com</td>
+                                        <td><span class="text-xs font-semibold">Bi-Weekly Deep</span></td>
+                                        <td class="font-semibold">38</td>
+                                        <td class="font-semibold text-primary">$3,382</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/women/12.jpg" class="avatar" alt="Emily">
+                                                <div><p class="font-semibold">Emily Torres</p><p class="text-xs text-secondary-text">#PN-2011</p></div>
+                                            </div>
+                                        </td>
+                                        <td>emily.t@email.com</td>
+                                        <td><span class="text-xs font-semibold">Monthly</span></td>
+                                        <td class="font-semibold">12</td>
+                                        <td class="font-semibold text-primary">$1,548</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://randomuser.me/api/portraits/women/28.jpg" class="avatar" alt="Rachel">
+                                                <div><p class="font-semibold">Rachel Bennett</p><p class="text-xs text-secondary-text">#PN-1765</p></div>
+                                            </div>
+                                        </td>
+                                        <td>r.bennett@email.com</td>
+                                        <td><span class="text-xs font-semibold text-secondary-text">Cancelled</span></td>
+                                        <td class="font-semibold">21</td>
+                                        <td class="font-semibold text-primary">$1,869</td>
+                                        <td><span class="status-badge bg-red-100 text-red-700">Churned</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== CLEANERS ========== -->
+                <div id="cleaners" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Manage <span class="gradient-text">Cleaners</span> 🧹</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Onboard, assign, and track your cleaning team.</p>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 mb-5 reveal active">
+                        <div class="flex flex-wrap justify-between items-center gap-3">
+                            <div class="flex flex-wrap gap-2">
+                                <button class="btn-primary px-4 py-2 text-xs font-bold">All</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">On Duty</button>
+                                <button class="btn-accent px-4 py-2 text-xs font-bold">On Leave</button>
+                            </div>
+                            <button class="btn-primary px-4 py-2 text-xs font-bold"><i class="fas fa-plus mr-1"></i> Add Cleaner</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+                        <!-- Cleaner card -->
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar" alt="Maria">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">Maria Santos</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-001</p>
+                                        </div>
+                                        <span class="status-badge bg-green-100 text-green-700">On duty</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">32</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">5.0 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Austin</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="avatar" alt="Anna">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">Anna Kim</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-002</p>
+                                        </div>
+                                        <span class="status-badge bg-green-100 text-green-700">On duty</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">28</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">4.9 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Austin</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="avatar" alt="James">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">James Wilson</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-003</p>
+                                        </div>
+                                        <span class="status-badge bg-yellow-100 text-yellow-700">On leave</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">25</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">4.8 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Dallas</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/women/12.jpg" class="avatar" alt="Emily">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">Emily Torres</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-004</p>
+                                        </div>
+                                        <span class="status-badge bg-green-100 text-green-700">On duty</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">22</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">4.9 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Phoenix</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/women/28.jpg" class="avatar" alt="Rachel">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">Rachel Adams</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-005</p>
+                                        </div>
+                                        <span class="status-badge bg-green-100 text-green-700">On duty</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">19</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">4.7 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Houston</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-5">
+                            <div class="flex items-start gap-3">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" class="avatar" alt="Michael">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <p class="font-semibold text-sm">Michael Chen</p>
+                                            <p class="text-xs text-secondary-text">ID: #CL-006</p>
+                                        </div>
+                                        <span class="status-badge bg-green-100 text-green-700">On duty</span>
+                                    </div>
+                                    <div class="mt-3 space-y-1.5 text-xs">
+                                        <div class="flex justify-between"><span class="text-secondary-text">Cleans this month</span><span class="font-semibold">17</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Rating</span><span class="font-semibold text-yellow-600">4.8 ★</span></div>
+                                        <div class="flex justify-between"><span class="text-secondary-text">Region</span><span class="font-semibold">Seattle</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+                                <button class="btn-accent flex-1 py-2 text-xs font-bold">Profile</button>
+                                <button class="btn-primary flex-1 py-2 text-xs font-bold">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== SERVICES ========== -->
+                <div id="services" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Manage <span class="gradient-text">Services</span> 🧼</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Edit pricing, duration, and descriptions for each service.</p>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 reveal active">
+                        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+                            <h3 class="font-semibold text-lg">Active Services</h3>
+                            <button class="btn-primary px-4 py-2 text-xs font-bold"><i class="fas fa-plus mr-1"></i> Add Service</button>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full data-table min-w-[720px]">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Duration</th>
+                                        <th>Base Price</th>
+                                        <th>Bookings (MTD)</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-xs"><i class="fas fa-broom"></i></div>
+                                                <span class="font-semibold">Regular Cleaning</span>
+                                            </div>
+                                        </td>
+                                        <td>2 hours</td>
+                                        <td class="font-semibold">$59</td>
+                                        <td>64</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent text-xs"><i class="fas fa-spray-can-sparkles"></i></div>
+                                                <span class="font-semibold">Deep Sanitization</span>
+                                            </div>
+                                        </td>
+                                        <td>3 hours</td>
+                                        <td class="font-semibold">$89</td>
+                                        <td>38</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-xs"><i class="fas fa-truck-moving"></i></div>
+                                                <span class="font-semibold">Move-In / Move-Out</span>
+                                            </div>
+                                        </td>
+                                        <td>4+ hours</td>
+                                        <td class="font-semibold">$149</td>
+                                        <td>15</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Active</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent text-xs"><i class="fas fa-wind"></i></div>
+                                                <span class="font-semibold">Air Disinfection Add-on</span>
+                                            </div>
+                                        </td>
+                                        <td>45 min</td>
+                                        <td class="font-semibold">$45</td>
+                                        <td>7</td>
+                                        <td><span class="status-badge bg-yellow-100 text-yellow-700">Draft</span></td>
+                                        <td><button class="text-primary text-xs font-semibold hover:text-accent"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== PAYMENTS ========== -->
+                <div id="payments" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Payments & <span class="gradient-text">Revenue</span> 💰</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Track all transactions, payouts, and revenue.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 reveal active">
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-xl">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">$42,840</p>
+                            <p class="text-sm font-semibold text-primary-text">Revenue (MTD)</p>
+                            <p class="text-xs text-green-600 mt-0.5"><i class="fas fa-arrow-up mr-1"></i> +22% vs last month</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-xl">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">$38,200</p>
+                            <p class="text-sm font-semibold text-primary-text">Collected</p>
+                            <p class="text-xs text-secondary-text mt-0.5">89% of billed amount</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <div class="w-11 h-11 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600 text-xl">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <p class="text-3xl font-semibold mt-4">$4,640</p>
+                            <p class="text-sm font-semibold text-primary-text">Pending</p>
+                            <p class="text-xs text-secondary-text mt-0.5">Across 42 invoices</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 mt-5 reveal">
+                        <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+                            <h3 class="font-semibold text-lg">Recent Transactions</h3>
+                            <button class="btn-accent px-4 py-2 text-xs font-bold"><i class="fas fa-file-export mr-1"></i> Export</button>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full data-table min-w-[720px]">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction</th>
+                                        <th>Customer</th>
+                                        <th>Service</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold">#TXN-8012</td>
+                                        <td>Sarah Mitchell</td>
+                                        <td>Deep Sanitization</td>
+                                        <td class="font-semibold text-primary">$89.00</td>
+                                        <td>Apr 26, 2026</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#TXN-8011</td>
+                                        <td>David Lawson</td>
+                                        <td>Regular Cleaning</td>
+                                        <td class="font-semibold text-primary">$59.00</td>
+                                        <td>Apr 26, 2026</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#TXN-8010</td>
+                                        <td>Priya Kapoor</td>
+                                        <td>Move-Out Cleaning</td>
+                                        <td class="font-semibold text-primary">$149.00</td>
+                                        <td>Apr 25, 2026</td>
+                                        <td><span class="status-badge bg-yellow-100 text-yellow-700">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#TXN-8009</td>
+                                        <td>James Rodriguez</td>
+                                        <td>Deep Sanitization</td>
+                                        <td class="font-semibold text-primary">$89.00</td>
+                                        <td>Apr 25, 2026</td>
+                                        <td><span class="status-badge bg-green-100 text-green-700">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">#TXN-8008</td>
+                                        <td>Rachel Bennett</td>
+                                        <td>Regular Cleaning</td>
+                                        <td class="font-semibold text-primary">$59.00</td>
+                                        <td>Apr 24, 2026</td>
+                                        <td><span class="status-badge bg-red-100 text-red-700">Failed</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== REPORTS ========== -->
+                <div id="reports" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">Reports & <span class="gradient-text">Analytics</span> 📊</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Deep dive into business metrics and trends.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal active">
+                        <div class="stat-card p-5">
+                            <p class="text-xs uppercase tracking-widest text-secondary-text font-bold">Customer Growth</p>
+                            <p class="text-3xl font-semibold text-primary mt-2">+68</p>
+                            <p class="text-xs text-secondary-text mt-1">this month</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <p class="text-xs uppercase tracking-widest text-secondary-text font-bold">Avg. Visit Value</p>
+                            <p class="text-3xl font-semibold text-primary mt-2">$78</p>
+                            <p class="text-xs text-secondary-text mt-1">+6% vs last month</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <p class="text-xs uppercase tracking-widest text-secondary-text font-bold">Retention Rate</p>
+                            <p class="text-3xl font-semibold text-primary mt-2">82%</p>
+                            <p class="text-xs text-secondary-text mt-1">returning customers</p>
+                        </div>
+                        <div class="stat-card p-5">
+                            <p class="text-xs uppercase tracking-widest text-secondary-text font-bold">Cancellation Rate</p>
+                            <p class="text-3xl font-semibold text-yellow-600 mt-2">3.4%</p>
+                            <p class="text-xs text-secondary-text mt-1">-0.8% vs last month</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 mt-5 reveal">
+                        <h3 class="font-semibold text-lg flex items-center gap-2 mb-5">
+                            <i class="fas fa-chart-bar text-primary"></i> Monthly Performance
+                        </h3>
+                        <div class="chart-bar" style="height: 180px;">
+                            <div style="height: 62%;"></div>
+                            <div style="height: 68%;"></div>
+                            <div style="height: 55%;"></div>
+                            <div style="height: 74%;"></div>
+                            <div style="height: 82%;"></div>
+                            <div style="height: 91%;"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] text-secondary-text mt-2 px-1">
+                            <span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 mt-5 reveal">
+                        <h3 class="font-semibold text-lg mb-4">Export Reports</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="btn-accent px-5 py-2.5 text-sm font-bold"><i class="fas fa-file-csv mr-2"></i> Bookings CSV</button>
+                            <button class="btn-accent px-5 py-2.5 text-sm font-bold"><i class="fas fa-file-csv mr-2"></i> Revenue CSV</button>
+                            <button class="btn-accent px-5 py-2.5 text-sm font-bold"><i class="fas fa-file-csv mr-2"></i> Customers CSV</button>
+                            <button class="btn-primary px-5 py-2.5 text-sm font-bold"><i class="fas fa-file-pdf mr-2"></i> Monthly PDF</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== SETTINGS ========== -->
+                <div id="settings" class="admin-section hidden">
+                    <div class="mb-6 reveal active">
+                        <h1 class="text-2xl sm:text-3xl font-semibold">System <span class="gradient-text">Settings</span> ⚙️</h1>
+                        <p class="text-secondary-text mt-1 text-sm sm:text-base">Configure clinic details, notifications, and preferences.</p>
+                    </div>
+
+                    <div class="dashboard-card p-5 sm:p-6 reveal active">
+                        <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-building text-primary"></i> Business Details
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-secondary-text mb-1.5">Business name</label>
+                                <input type="text" class="form-input" value="PureNest Cleaning Services">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-secondary-text mb-1.5">Contact email</label>
+                                <input type="email" class="form-input" value="admin@purenest.com">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-secondary-text mb-1.5">Phone</label>
+                                <input type="tel" class="form-input" value="1-800-123-4567">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest font-bold text-secondary-text mb-1.5">Timezone</label>
+                                <select class="form-input">
+                                    <option>GMT-6 (CST)</option>
+                                    <option>GMT-5 (EST)</option>
+                                    <option>GMT-7 (MST)</option>
+                                    <option>GMT-8 (PST)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h3 class="font-semibold text-lg mt-8 mb-4 flex items-center gap-2">
+                            <i class="fas fa-bell text-primary"></i> Notifications
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border border-border rounded-xl p-4">
+                                <div>
+                                    <p class="font-semibold text-sm">Email notifications</p>
+                                    <p class="text-xs text-secondary-text">Send booking confirmations to customers</p>
+                                </div>
+                                <input type="checkbox" class="w-5 h-5 accent-[var(--color-primary)]" checked>
+                            </div>
+                            <div class="flex items-center justify-between border border-border rounded-xl p-4">
+                                <div>
+                                    <p class="font-semibold text-sm">SMS reminders</p>
+                                    <p class="text-xs text-secondary-text">Send SMS 24 hours before appointment</p>
+                                </div>
+                                <input type="checkbox" class="w-5 h-5 accent-[var(--color-primary)]" checked>
+                            </div>
+                            <div class="flex items-center justify-between border border-border rounded-xl p-4">
+                                <div>
+                                    <p class="font-semibold text-sm">Auto-assign cleaners</p>
+                                    <p class="text-xs text-secondary-text">Automatically assign nearest available cleaner</p>
+                                </div>
+                                <input type="checkbox" class="w-5 h-5 accent-[var(--color-primary)]" checked>
+                            </div>
+                            <div class="flex items-center justify-between border border-border rounded-xl p-4">
+                                <div>
+                                    <p class="font-semibold text-sm">Review requests</p>
+                                    <p class="text-xs text-secondary-text">Send review request after each completed clean</p>
+                                </div>
+                                <input type="checkbox" class="w-5 h-5 accent-[var(--color-primary)]">
+                            </div>
+                        </div>
+
+                        <button class="btn-primary px-8 py-3 mt-6 text-sm font-bold">
+                            <i class="fas fa-save mr-2"></i> Save Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========== LOGOUT ========== -->
+                <div id="logout" class="admin-section hidden">
+                    <div class="dashboard-card p-8 sm:p-10 text-center max-w-md mx-auto reveal active">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-3xl mx-auto mb-4">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold">Sign Out</h2>
+                        <p class="text-secondary-text text-sm mt-2">You will be redirected to the login page.</p>
+                        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                            <button onclick="window.location.href='login.html'" class="bg-red-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-red-600 transition">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </button>
+                            <button onclick="activateSection('overview')" class="border-2 border-border px-6 py-2.5 rounded-full font-semibold hover:border-primary hover:text-primary transition">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== FOOTER ========== -->
+                <footer class="mt-10 text-center text-[10px] text-secondary-text border-t border-border pt-6 pb-10">
+                    <p class="uppercase tracking-widest font-bold">© 2026 PureNest Services — Admin Dashboard</p>
+                    <div class="flex justify-center gap-5 mt-3">
+                        <span class="hover:text-primary cursor-pointer transition">Help</span>
+                        <span class="hover:text-primary cursor-pointer transition">Contact</span>
+                        <span class="hover:text-primary cursor-pointer transition">Privacy</span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating call button (mobile) -->
+    <a href="tel:18001234567"
+       class="float-call fixed bottom-6 right-6 bg-primary text-white w-14 h-14 rounded-full flex items-center justify-center z-[90] hover:bg-accent transition-transform hover:scale-110 flex md:hidden">
+        <i class="fas fa-phone text-2xl"></i>
+    </a>
+
+    <script>
+        (function () {
+            const html = document.documentElement;
+
+            /* ============ THEME ============ */
+            const themeBtn = document.getElementById('theme-toggle');
+            const lightIcons = document.querySelectorAll('.light-icon');
+            const darkIcons = document.querySelectorAll('.dark-icon');
+            function setTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                lightIcons.forEach(i => i.classList.toggle('hidden', theme === 'dark'));
+                darkIcons.forEach(i => i.classList.toggle('hidden', theme === 'light'));
+            }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+            themeBtn?.addEventListener('click', () => {
+                const cur = html.getAttribute('data-theme');
+                setTheme(cur === 'light' ? 'dark' : 'light');
+            });
+
+            /* ============ RTL ============ */
+            const langBtn = document.getElementById('lang-toggle');
+            function setDir(dir) {
+                html.setAttribute('dir', dir);
+                localStorage.setItem('language', dir === 'rtl' ? 'ar' : 'en');
+            }
+            const savedDir = localStorage.getItem('language') === 'ar' ? 'rtl' : 'ltr';
+            setDir(savedDir);
+            langBtn?.addEventListener('click', () => {
+                const cur = html.getAttribute('dir');
+                setDir(cur === 'ltr' ? 'rtl' : 'ltr');
+            });
+
+            /* ============ MOBILE SIDEBAR ============ */
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const closeSide = document.getElementById('close-sidebar');
+            const sidebar = document.getElementById('sidebar-container');
+            const overlay = document.getElementById('mobile-overlay');
+
+            function toggleMobile(open) {
+                if (open) {
+                    sidebar.classList.add('open-sidebar-mobile');
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    sidebar.classList.remove('open-sidebar-mobile');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+            menuToggle?.addEventListener('click', () => toggleMobile(true));
+            closeSide?.addEventListener('click', () => toggleMobile(false));
+            overlay?.addEventListener('click', () => toggleMobile(false));
+
+            /* ============ NAVIGATION ============ */
+            const sections = ['overview', 'bookings', 'customers', 'cleaners', 'services', 'payments', 'reports', 'settings', 'logout'];
+            const links = document.querySelectorAll('.sidebar-link');
+
+            window.activateSection = function (sectionId) {
+                sections.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden');
+                });
+                const target = document.getElementById(sectionId);
+                if (target) target.classList.remove('hidden');
+
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) link.classList.add('active');
+                });
+                if (window.innerWidth < 1024) toggleMobile(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sec = link.dataset.section;
+                    if (sec) activateSection(sec);
+                });
+            });
+            activateSection('overview');
+
+            /* ============ REVEAL ON SCROLL ============ */
+            const reveals = document.querySelectorAll('.reveal');
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+            }, { threshold: 0.08 });
+            reveals.forEach(r => obs.observe(r));
+        })();
+    </script>
+</body>
+</html>
+
+
+
