@@ -552,9 +552,26 @@
             html[dir="rtl"] .signup-wrapper { grid-template-columns: 1fr; }
             .brand-strip { display: none; }
             .mobile-logo { display: flex; }
-            .form-area { padding: 5rem 1.25rem 2rem; }
+            .form-area { padding: 4rem 1.25rem 2rem; }
             .form-header { text-align: center; } .form-header h1 { font-size: 1.6rem; }
             .form-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+        }
+        @media (max-width: 380px) {
+            .form-area { padding: 3.5rem 1rem 1.5rem; }
+            .mobile-logo { margin-bottom: 1.25rem; }
+            .mobile-logo span { font-size: 1.25rem; }
+            .mobile-logo i { width: 36px; height: 36px; }
+            .form-header h1 { font-size: 1.35rem; }
+            .form-header p { font-size: 0.8rem; }
+            .social-row { grid-template-columns: 1fr; gap: 0.4rem; }
+            .social-btn { padding: 0.6rem; font-size: 0.8rem; }
+            .divider { margin: 0.75rem 0; font-size: 0.65rem; }
+            .input { padding: 0.45rem 0.65rem; font-size: 0.85rem; }
+            .field-label { font-size: 0.65rem; margin-bottom: 0.3rem; }
+            .checkbox-row { font-size: 0.7rem; gap: 0.4rem; margin-bottom: 0.75rem; }
+            .btn-submit { padding: 0.65rem; font-size: 0.85rem; }
+            .controls { top: 0.5rem; right: 0.5rem; }
+            .login-link { margin-top: 1.25rem; font-size: 0.75rem; }
         }
     
         /* NEW NAV ACTIVE BG STYLE */

@@ -702,21 +702,28 @@
             </p>
         </div>
 
-        <!-- Vertical timeline for desktop, stacked for mobile -->
+        <!-- Vertical timeline for desktop, stacked with left timeline for mobile -->
         <div class="max-w-4xl mx-auto relative">
-            <!-- Timeline line (desktop only) -->
-            <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2"></div>
+            <!-- Vertical Timeline line -->
+            <div class="absolute left-6 md:left-1/2 top-4 bottom-4 md:top-0 md:bottom-0 w-0.5 bg-border -translate-x-1/2 z-0"></div>
 
             <div class="space-y-8 md:space-y-0">
                 <!-- Step 1 -->
-                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
-                    <div class="md:text-right md:pr-12">
-                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm inline-block w-full md:w-auto">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative pl-12 md:pl-0">
+                    <!-- Center dot -->
+                    <div class="absolute left-6 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-[3px] border-background z-10 shadow-sm"></div>
+                    <!-- Horizontal connector line (Mobile) -->
+                    <div class="md:hidden absolute left-6 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+                    <!-- Horizontal connector line (Desktop Left) -->
+                    <div class="hidden md:block absolute left-1/2 top-1/2 w-6 h-0.5 bg-border -translate-x-full -translate-y-1/2 z-0"></div>
+
+                    <div class="md:text-right z-10 relative">
+                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm block w-full hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-4 md:flex-row-reverse md:justify-start">
                                 <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-lg">
                                     <span class="text-white font-bold text-lg">1</span>
                                 </div>
-                                <div class="md:text-right">
+                                <div class="md:text-right text-left">
                                     <h3 class="font-semibold text-primary-text mb-1">Book Online</h3>
                                     <p class="text-sm text-secondary-text leading-relaxed">Choose your service, date, and time from your dashboard in under a minute.</p>
                                 </div>
@@ -724,39 +731,49 @@
                         </div>
                     </div>
                     <div class="hidden md:block"></div>
-                    <!-- Center dot -->
-                    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-10"></div>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative pl-12 md:pl-0">
+                    <!-- Center dot -->
+                    <div class="absolute left-6 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-accent border-[3px] border-background z-10 shadow-sm"></div>
+                    <!-- Horizontal connector line (Mobile) -->
+                    <div class="md:hidden absolute left-6 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+                    <!-- Horizontal connector line (Desktop Right) -->
+                    <div class="hidden md:block absolute left-1/2 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+
                     <div class="hidden md:block"></div>
-                    <div class="md:pl-12">
-                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm inline-block w-full md:w-auto">
+                    <div class="md:pl-0 z-10 relative">
+                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm block w-full hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-accent flex items-center justify-center flex-shrink-0 shadow-lg">
                                     <span class="text-white font-bold text-lg">2</span>
                                 </div>
-                                <div>
+                                <div class="text-left">
                                     <h3 class="font-semibold text-primary-text mb-1">We Arrive</h3>
                                     <p class="text-sm text-secondary-text leading-relaxed">A vetted, uniformed professional arrives on time with all supplies and equipment.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Center dot -->
-                    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-accent border-4 border-background z-10"></div>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
-                    <div class="md:text-right md:pr-12">
-                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm inline-block w-full md:w-auto">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative pl-12 md:pl-0">
+                    <!-- Center dot -->
+                    <div class="absolute left-6 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-accent border-[3px] border-background z-10 shadow-sm"></div>
+                    <!-- Horizontal connector line (Mobile) -->
+                    <div class="md:hidden absolute left-6 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+                    <!-- Horizontal connector line (Desktop Left) -->
+                    <div class="hidden md:block absolute left-1/2 top-1/2 w-6 h-0.5 bg-border -translate-x-full -translate-y-1/2 z-0"></div>
+
+                    <div class="md:text-right z-10 relative">
+                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm block w-full hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-4 md:flex-row-reverse md:justify-start">
                                 <div class="w-12 h-12 rounded-xl bg-accent flex items-center justify-center flex-shrink-0 shadow-lg">
                                     <span class="text-white font-bold text-lg">3</span>
                                 </div>
-                                <div class="md:text-right">
+                                <div class="md:text-right text-left">
                                     <h3 class="font-semibold text-primary-text mb-1">Deep Clean</h3>
                                     <p class="text-sm text-secondary-text leading-relaxed">We follow a detailed checklist room by room, top to bottom, without shortcuts.</p>
                                 </div>
@@ -764,28 +781,31 @@
                         </div>
                     </div>
                     <div class="hidden md:block"></div>
-                    <!-- Center dot -->
-                    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-accent border-4 border-background z-10"></div>
                 </div>
 
                 <!-- Step 4 -->
-                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center relative pl-12 md:pl-0">
+                    <!-- Center dot -->
+                    <div class="absolute left-6 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-[3px] border-background z-10 shadow-sm"></div>
+                    <!-- Horizontal connector line (Mobile) -->
+                    <div class="md:hidden absolute left-6 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+                    <!-- Horizontal connector line (Desktop Right) -->
+                    <div class="hidden md:block absolute left-1/2 top-1/2 w-6 h-0.5 bg-border -translate-y-1/2 z-0"></div>
+
                     <div class="hidden md:block"></div>
-                    <div class="md:pl-12">
-                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm inline-block w-full md:w-auto">
+                    <div class="md:pl-0 z-10 relative">
+                        <div class="bg-card-bg rounded-2xl p-6 md:p-7 border border-border shadow-sm block w-full hover:shadow-md transition-shadow">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-lg">
                                     <span class="text-white font-bold text-lg">4</span>
                                 </div>
-                                <div>
+                                <div class="text-left">
                                     <h3 class="font-semibold text-primary-text mb-1">Enjoy & Rate</h3>
                                     <p class="text-sm text-secondary-text leading-relaxed">Walk into a fresh home. Rate your clean and rebook anytime from your dashboard.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Center dot -->
-                    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-10"></div>
                 </div>
             </div>
         </div>

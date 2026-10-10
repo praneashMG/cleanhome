@@ -422,9 +422,31 @@
 
         /* ── Responsive ── */
         @media (max-width: 480px) {
-            .glass-card { padding: 2rem 1.5rem; border-radius: 24px; }
+            body { padding: 1rem; }
+            .glass-card { padding: 1.75rem 1.25rem; border-radius: 24px; }
             .heading { font-size: 1.4rem; }
             .orb-1, .orb-2, .orb-3 { display: none; }
+        }
+        @media (max-width: 380px) {
+            body { padding: 0.5rem; }
+            .glass-card { padding: 1.5rem 1rem; }
+            .heading { font-size: 1.25rem; }
+            .subheading { font-size: 0.75rem; margin-bottom: 1.25rem; }
+            .logo { margin-bottom: 1.25rem; }
+            .logo-icon { width: 40px; height: 40px; font-size: 1.1rem; }
+            .logo-text { font-size: 1.25rem; }
+            .input { padding: 0.75rem 1rem 0.75rem 2.25rem; font-size: 0.8rem; }
+            html[dir="rtl"] .input { padding: 0.75rem 2.25rem 0.75rem 1rem; }
+            .field-wrapper { margin-bottom: 0.85rem; }
+            .field-wrapper i.field-icon { left: 0.8rem; font-size: 0.8rem; }
+            html[dir="rtl"] .field-wrapper i.field-icon { right: 0.8rem; }
+            .form-row { margin-bottom: 1rem; font-size: 0.75rem; }
+            .btn-submit { padding: 0.8rem; font-size: 0.85rem; }
+            .divider { margin: 1rem 0; font-size: 0.65rem; }
+            .social-row { gap: 0.4rem; margin-bottom: 1rem; }
+            .social-btn { padding: 0.5rem; }
+            .demo-hint { margin-top: 1rem; padding: 0.5rem; font-size: 0.7rem; }
+            .controls { top: 0.5rem; right: 0.5rem; }
         }
     
         /* NEW NAV ACTIVE BG STYLE */
