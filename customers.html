@@ -70,6 +70,17 @@
             --color-sidebar-bg: #0F3D3A;
         }
 
+        /* Pure white calendar indicator in dark mode */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        html[data-theme='dark'] input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: brightness(0) invert(1) !important;
+            opacity: 1 !important;
+            cursor: pointer;
+        }
+
         body {
             background: var(--color-background);
             color: var(--color-primary-text);
