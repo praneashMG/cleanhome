@@ -256,8 +256,9 @@
         .particle { position: absolute; background-color: var(--color-accent); border-radius: 50%; opacity: 0.15; animation: floatParticle 12s infinite ease-in-out; }
         @keyframes floatParticle { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-20px) translateX(10px); } }
         
-        .footer-link { color: #475569; transition: color 0.3s; }
-        .footer-link:hover { color: var(--color-primary); }
+        .footer-link { color: rgba(255, 255, 255, 0.75); transition: color 0.3s; }
+        .footer-link:hover { color: var(--color-secondary); }
+        
 
         @media (max-width: 768px) {
             .circle-card { width: 140px; height: 140px; }
@@ -1277,9 +1278,9 @@
     </main>
 
     <!-- Footer Cleaning Service Style -->
-    <footer id="main-footer" class="pt-14 transition-colors duration-300 bg-blue-100">
+    <footer id="main-footer" class="pt-14 transition-colors duration-300 border-t border-border" style="background-color: var(--color-footer-bg); color: var(--color-footer-text);">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 pb-10 border-b border-blue-200">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 pb-10 border-b border-white/15">
                 <div class="col-span-2 md:col-span-2">
                     <a href="index.html" class="flex items-center gap-3 group relative z-10 flex-shrink-0 text-left mb-4">
                         <div class="relative h-11 w-11 rounded-2xl bg-gradient-to-br from-primary via-teal-600 to-accent flex items-center justify-center text-white shadow-md transform group-hover:scale-105 transition duration-300 ring-2 ring-primary/25">
@@ -1293,24 +1294,24 @@
                         </div>
                         <div class="flex flex-col justify-center">
                             <div class="flex items-baseline gap-0.5">
-                                <span class="text-2xl sm:text-3xl font-sans font-black tracking-tight text-primary leading-none">
-                                    Pure<span class="text-accent">Nest</span>
+                                <span class="text-2xl sm:text-3xl font-sans font-black tracking-tight leading-none text-white">
+                                    Pure<span class="text-secondary">Nest</span>
                                 </span>
-                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-accent mb-0.5"></span>
+                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary mb-0.5"></span>
                             </div>
-                            <span class="text-[8px] sm:text-[9.5px] uppercase font-bold tracking-[0.16em] sm:tracking-[0.2em] text-secondary-text/80 block mt-0.5 sm:mt-1">Home &amp; Deep Sanitization</span>
+                            <span class="text-[8px] sm:text-[9.5px] uppercase font-bold tracking-[0.16em] sm:tracking-[0.2em] text-white/70 block mt-0.5 sm:mt-1">Home &amp; Deep Sanitization</span>
                         </div>
                     </a>
-                    <p class="text-sm leading-relaxed max-w-xs text-slate-600">Professional home cleaning and deep sanitization services you can trust. Let us make your home sparkle and stay hygienic.</p>
+                    <p class="text-sm leading-relaxed max-w-xs text-white/80">Professional home cleaning and deep sanitization services you can trust. Let us make your home sparkle and stay hygienic.</p>
                     <div class="flex space-x-4 rtl:space-x-reverse mt-6">
-                        <a href="#" class="text-slate-400 hover:text-primary transition"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-primary transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-primary transition"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-white/60 hover:text-secondary transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white/60 hover:text-secondary transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white/60 hover:text-secondary transition"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                <div><h4 class="text-lg font-semibold mb-4 text-primary">Services</h4><ul class="space-y-2"><li><a href="#" class="footer-link">Standard Cleaning</a></li><li><a href="#" class="footer-link">Deep Sanitization</a></li><li><a href="#" class="footer-link">Move-In/Out Cleaning</a></li><li><a href="#" class="footer-link">Recurring Plans</a></li></ul></div>
+                <div><h4 class="text-lg font-semibold mb-4 text-white">Services</h4><ul class="space-y-2"><li><a href="services.html" class="footer-link">Standard Cleaning</a></li><li><a href="services.html" class="footer-link">Deep Sanitization</a></li><li><a href="services.html" class="footer-link">Move-In/Out Cleaning</a></li><li><a href="pricing.html" class="footer-link">Recurring Plans</a></li></ul></div>
 <div>
-  <h4 class="text-lg font-semibold mb-4 text-primary">Quick Links</h4>
+  <h4 class="text-lg font-semibold mb-4 text-white">Quick Links</h4>
   <ul class="space-y-2">
     <li><a href="index.html" class="footer-link">Home</a></li>
     <li><a href="services.html" class="footer-link">Cleaning Services</a></li>
@@ -1319,13 +1320,13 @@
   </ul>
 </div>
                 <div class="col-span-2 md:col-span-2 lg:col-span-1">
-                    <h4 class="font-semibold text-lg mb-4 text-primary">Newsletter</h4>
-                    <p class="text-sm mb-4 text-slate-600">Get cleaning tips & exclusive offers.</p>
-                    <input type="email" placeholder="Your email" class="p-3 text-sm rounded-lg w-full bg-white border border-blue-200 placeholder-slate-400 focus:ring-2 focus:ring-primary text-slate-800 outline-none">
+                    <h4 class="font-semibold text-lg mb-4 text-white">Newsletter</h4>
+                    <p class="text-sm mb-4 text-white/80">Get cleaning tips & exclusive offers.</p>
+                    <input type="email" placeholder="Your email" class="p-3 text-sm rounded-lg w-full bg-white/10 border border-white/20 placeholder-white/50 focus:ring-2 focus:ring-secondary text-white outline-none">
                     <button class="btn-primary font-bold py-3 rounded-lg w-full mt-3">Subscribe</button>
                 </div>
             </div>
-            <div class="py-4 text-center text-xs text-slate-500">&copy; 2026 CleanHome Services. All rights reserved. | <span class="hover:text-primary cursor-pointer">Privacy</span> | <span class="hover:text-primary cursor-pointer">Terms</span></div>
+            <div class="py-4 text-center text-xs text-white/60">&copy; 2026 PureNest Services. All rights reserved. | <span class="hover:text-secondary cursor-pointer">Privacy</span> | <span class="hover:text-secondary cursor-pointer">Terms</span></div>
         </div>
     </footer>
 
